@@ -104,11 +104,6 @@ I think empathy plays a big role in how I approach both people and design, and I
   <!-- Fades in as soon as bgVisible is true (while circle is still travelling) -->
   <div class="wia-bg"></div>
 
-  <!-- ── Two dots top-left ── -->
-  <div class="wia-dots">
-    <span class="wia-dot"></span>
-    <span class="wia-dot"></span>
-  </div>
 
   <!--
     ── Static decorative layer ──
@@ -119,8 +114,8 @@ I think empathy plays a big role in how I approach both people and design, and I
 
   <!-- Decorative red circle — bottom right, partially clipped -->
   <div class="deco-circle"
-    class:hidden-deco={!visible}
-  >
+        class:hidden-deco={!visible}
+        >
     </div>
 
   <!-- Photo — only rendered always but visible only when card 0 is active -->
@@ -201,10 +196,8 @@ I think empathy plays a big role in how I approach both people and design, and I
   .wia-root.bg-visible .wia-bg { opacity: 1; }
 
   /* Content fades in after bg is mostly in */
-  .wia-dots,
   .text-layer,
   .progress-dots,
-  .deco-circle,
   .deco-photo {
     opacity: 0;
     transition: opacity 0.35s ease 0.35s;
@@ -222,22 +215,6 @@ I think empathy plays a big role in how I approach both people and design, and I
   }
   .deco-photo.photo-visible { opacity: 1; }
 
-  /* ── Two dots ── */
-  .wia-dots {
-    position: absolute;
-    top: 4.5vh;
-    left: 4vw;
-    display: flex;
-    gap: 0.7vw;
-    z-index: 20;
-  }
-  .wia-dot {
-    display: inline-block;
-    width: clamp(18px, 2.6vw, 38px);
-    height: clamp(18px, 2.6vw, 38px);
-    border-radius: 50%;
-    background: #E35D5B;
-  }
 
   /* ── Decorative circle ──
      Fixed bottom-right. Size and position set to match the
@@ -255,26 +232,43 @@ I think empathy plays a big role in how I approach both people and design, and I
     z-index: 1;
     pointer-events: none;
   }
+
 .hidden-deco {
   opacity: 0;
 }
-
   /* ── Photo ──
      Fixed bottom-right, in front of deco circle.
      Tall portrait image, bottom-aligned.
      right: 6vw places it over the left portion of the circle.
   */
-  .deco-photo {
-    position: absolute;
-    bottom: 0;
-    right: 5vw;
-    height: clamp(821px, 75vh, 1095px);
-    width: auto;
-    object-fit: contain;
-    object-position: bottom;
-    z-index: 2;
-    pointer-events: none;
-  }
+.deco-photo{
+  position:absolute;
+  bottom:-6vh;
+  right:5vw;
+
+  height:clamp(821px,75vh,1095px);
+  width:auto;
+
+  object-fit:contain;
+  object-position:bottom;
+
+  z-index:2;
+
+  pointer-events:none;
+
+  opacity:0;
+
+  transform:translateY(10vh);
+
+  transition:
+    opacity 0.45s ease,
+    transform 0.75s cubic-bezier(0.16,1,0.3,1);
+}
+
+.deco-photo.photo-visible{
+  opacity:1;
+  transform:translateY(0);
+}
 
   /* ── Text layer ──
      Sits above everything except the dots.

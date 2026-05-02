@@ -418,4 +418,18 @@ export let enteringCircles = false;
       transform:translateY(0)
     }
   }
+  @keyframes circleToCorner{
+  from{
+    transform:translate(0,0) scale(1);
+    border-radius:50%;
+  }
+
+  to{
+    transform:
+      translate(33vw,34vh)
+      scale(1.15);
+
+    border-radius:50%;
+  }
+}
 </style>

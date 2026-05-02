@@ -200,12 +200,6 @@ class:hidden={state !== 'landing' && state !== 'collapsing'}
     at the same moment the circle starts moving toward the corner.
     This way the circle travels continuously WITH the gradient appearing beneath it.
   -->
-  <WhoIAm
-    bind:this={whoIAmComponent}
-    visible={state === 'deep'}
-    bgVisible={deepBgVisible}
-    onBack={exitDeep}
-  />
 <div
   class="selection-viewport"
   class:selection-viewport-active={state !== 'landing'}
@@ -223,6 +217,12 @@ class:hidden={state !== 'landing' && state !== 'collapsing'}
   {originClass}
 />
 
+  <WhoIAm
+    bind:this={whoIAmComponent}
+    visible={state === 'deep'}
+    bgVisible={deepBgVisible}
+    onBack={exitDeep}
+  />
 </div>
     </div>
 
