@@ -3,9 +3,9 @@
   export let expandedIndex;
   export let expandOrigin;
   export let sections;
-
+export let expandedRenderKey;
   export let hoveredIndex;
-
+export let playExpandAnimation = false;
   export let circleGoingToCorner = false;
   export let circleComingFromCorner = false;
 
@@ -13,6 +13,8 @@
   export let handleCornerPillClick;
 
   export let originClass;
+export let returningFromDeep = false;
+
 export let enteringCircles = false;
   $: isCirclesVisible =
     ['circles', 'expanded', 'deep', 'collapsing'].includes(state)
@@ -74,12 +76,16 @@ export let enteringCircles = false;
 
   <!-- Expanded circle -->
   {#if showBigCircle}
-    {#key expandedIndex}
+    {#key expandedRenderKey}
       <div class="expanded-scene" class:circle-exit={circleGoingToCorner}>
         <div
           class="big-expanded-circle
-            {originClass(expandOrigin)}
-            {circleGoingToCorner ? 'circle-to-corner' : ''}"
+{
+            playExpandAnimation
+      ? originClass(expandOrigin)
+      : ''
+  }
+  {circleGoingToCorner ? 'circle-to-corner' : ''}"
           style="background:{sections[expandedIndex].color}"
         >
 
@@ -418,18 +424,4 @@ export let enteringCircles = false;
       transform:translateY(0)
     }
   }
-  @keyframes circleToCorner{
-  from{
-    transform:translate(0,0) scale(1);
-    border-radius:50%;
-  }
-
-  to{
-    transform:
-      translate(33vw,34vh)
-      scale(1.15);
-
-    border-radius:50%;
-  }
-}
 </style>

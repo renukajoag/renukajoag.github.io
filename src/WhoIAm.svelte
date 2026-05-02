@@ -2,6 +2,7 @@
   export let visible    = false;
   export let bgVisible  = false;
   export let onBack     = () => {};
+export let keepCircleVisible = false;
 import renukaWhoIAm from "../assets/renuka_whoiam.png";
 
   // ── Card data ──
@@ -115,7 +116,7 @@ I think empathy plays a big role in how I approach both people and design, and I
 
   <!-- Decorative red circle — bottom right, partially clipped -->
   <div class="deco-circle"
-        class:hidden-deco={!visible}
+        class:hidden-deco={!visible && !keepCircleVisible}
         >
     </div>
 
@@ -192,7 +193,7 @@ I think empathy plays a big role in how I approach both people and design, and I
     z-index: 0;
     background: linear-gradient(to bottom, #F6EDEE 20%, #8FAF9A 100%);
     opacity: 0;
-    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1);
   }
   .wia-root.bg-visible .wia-bg { opacity: 1; }
 
@@ -205,11 +206,17 @@ I think empathy plays a big role in how I approach both people and design, and I
   }
   .wia-root.content-visible .wia-dots,
   .wia-root.content-visible .text-layer,
-  .wia-root.content-visible .progress-dots,
-  .wia-root.content-visible .deco-circle {
+  .wia-root.content-visible .progress-dots{
     opacity: 1;
     pointer-events: all;
   }
+.wia-root.content-visible .deco-circle{
+  transform:
+    translate(22vw, 4vh);
+
+  width:clamp(300px,44vw,680px);
+  height:clamp(300px,44vw,680px);
+}
   /* Photo has its own visibility tied to currentCard */
   .deco-photo {
     transition: opacity 0.4s ease;
@@ -222,17 +229,26 @@ I think empathy plays a big role in how I approach both people and design, and I
      reference image at 1660×1033 canvas.
      Circle is roughly 44vw wide, bottom edge at -10vw, right edge at -10vw.
   */
-  .deco-circle {
-    position: absolute;
-    bottom: -10vw;
-    right: -14vw;
-    width: clamp(300px, 44vw, 680px);
-    height: clamp(300px, 44vw, 680px);
-    border-radius: 50%;
-    background: #E35D5B;
-    z-index: 1;
-    pointer-events: none;
-  }
+.deco-circle{
+  position:absolute;
+
+  top:50%;
+  left:50%;
+
+  width:clamp(400px,60vmin,720px);
+  height:clamp(400px,60vmin,720px);
+
+  border-radius:50%;
+  background:#E35D5B;
+
+  transform:
+    translate(-50%, -50%);
+
+  transition:
+    transform 0.75s cubic-bezier(0.16,1,0.3,1),
+    width 0.75s cubic-bezier(0.16,1,0.3,1),
+    height 0.75s cubic-bezier(0.16,1,0.3,1);
+}
 
 .hidden-deco {
   opacity: 0;
@@ -244,8 +260,8 @@ I think empathy plays a big role in how I approach both people and design, and I
   */
 .deco-photo{
   position:absolute;
-  bottom:-6vh;
-  right:5vw;
+  bottom:-2vh;
+  right:1vw;
 
   height:clamp(821px,75vh,1095px);
   width:auto;

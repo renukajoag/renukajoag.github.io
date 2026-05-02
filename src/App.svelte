@@ -6,7 +6,10 @@
 
   let mouseX = 0, mouseY = 0;
   let renukaRef, joagRef, curiousRef, optimisticRef, observantRef, experimentalRef;
-
+     let returningFromDeep = false;
+  let keepCircleVisible = false;
+ let expandedRenderKey = 0;
+ let playExpandAnimation = false;
   function handleMouseMove(e) {
     mouseX = e.clientX; mouseY = e.clientY;
     applyMagnetic(renukaRef); applyMagnetic(joagRef);
@@ -92,52 +95,124 @@ function goToCircles() {
     enterDeep();
   }
 
-  function enterDeep() {
-    // 1. Show WhoIAm background immediately (it's behind the circle)
-    deepBgVisible = true;
-    circleGoingToCorner = true;
-    lockScroll(800);
-    // 2. After circle finishes travelling to corner (~650ms), switch to deep
-    setTimeout(() => {
-      circleGoingToCorner = false;
-      state = 'deep';
-      if (whoIAmComponent) whoIAmComponent.reset();
-    }, 650);
-  }
 
-  function exitDeep() {
-    // 1. Show the corner circle expanding back to center
-    circleComingFromCorner = true;
-    lockScroll(800);
-    setTimeout(() => {
-      circleComingFromCorner = false;
-      deepBgVisible = false;
-      state = 'expanded';
-      expandedIndex = 0;
-      expandOrigin  = 0;
-    }, 700);
-  }
+function enterDeep() {
+  deepBgVisible = true;
+
+  lockScroll(900);
+
+  setTimeout(() => {
+    state = 'deep';
+
+    if (whoIAmComponent) {
+      whoIAmComponent.reset();
+    }
+  }, 120);
+}
+
+function exitDeep() {
+  /*
+    Prevent re-running expandFromLeft
+    when expanded circle reappears.
+  */
+  returningFromDeep = true;
+  keepCircleVisible = true;
+
+  /*
+    Existing corner-pill return logic
+  */
+  circleComingFromCorner = true;
+
+  lockScroll(900);
+
+  /*
+    Allow WhoIAm reverse animations
+    to play before revealing expanded state.
+  */
+  setTimeout(() => {
+    circleComingFromCorner = false;
+
+    deepBgVisible = false;
+
+    state = 'expanded';
+
+    expandedIndex = 0;
+    expandOrigin = 0;
+  }, 700);
+
+  /*
+    Cleanup after expanded state
+    is fully restored.
+  */
+  setTimeout(() => {
+    returningFromDeep = false;
+    keepCircleVisible = false;
+  }, 950);
+}
 
   function handleCircleClick(i) {
-    if (state !== 'circles') return;
-    expandOrigin = i; expandedIndex = i; state = 'expanded';
+if (state !== 'circles') return;
+
+  playExpandAnimation = true;
+  expandedRenderKey++;
+
+  expandOrigin = i;
+  expandedIndex = i;
+
+  state = 'expanded';
+setTimeout(() => {
+    playExpandAnimation = false;
+  }, 800);
   }
 
-  function handleCornerPillClick(i) {
-    if (state === 'deep') {
-      // Exit deep first then expand new circle
-      circleComingFromCorner = true;
-      lockScroll(800);
+function handleCornerPillClick(i) {
+  if (state === 'deep') {
+    // Exit deep first then expand new circle
+    circleComingFromCorner = true;
+
+    lockScroll(800);
+
+    setTimeout(() => {
+      circleComingFromCorner = false;
+
+      deepBgVisible = false;
+
+      /*
+        This IS a genuine new circle selection,
+        so replay expand animation.
+      */
+      playExpandAnimation = true;
+
+      expandedRenderKey++;
+
+      expandOrigin = i;
+      expandedIndex = i;
+
+      state = 'expanded';
+
       setTimeout(() => {
-        circleComingFromCorner = false;
-        deepBgVisible = false;
-        expandOrigin = i; expandedIndex = i;
-        state = 'expanded';
-      }, 700);
-      return;
-    }
-    expandOrigin = i; expandedIndex = i;
+        playExpandAnimation = false;
+      }, 800);
+
+    }, 700);
+
+    return;
   }
+
+  /*
+    Normal corner switching
+  */
+  playExpandAnimation = true;
+
+  expandedRenderKey++;
+
+  expandOrigin = i;
+  expandedIndex = i;
+
+  setTimeout(() => {
+    playExpandAnimation = false;
+  }, 800);
+}
 
   function dismissToast()    { showSkipToast = false; }
   function handleSkipClick() { showSkipToast = false; showFuturePage = true; }
@@ -216,13 +291,15 @@ class:hidden={state !== 'landing' && state !== 'collapsing'}
   {handleCircleClick}
   {handleCornerPillClick}
   {originClass}
+returningFromDeep={returningFromDeep}
+playExpandAnimation={playExpandAnimation}
 />
-
   <WhoIAm
     bind:this={whoIAmComponent}
     visible={state === 'deep'}
     bgVisible={deepBgVisible}
     onBack={exitDeep}
+keepCircleVisible={keepCircleVisible}
   />
 </div>
     </div>
