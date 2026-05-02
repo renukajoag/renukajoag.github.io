@@ -2,6 +2,7 @@
   export let visible    = false;
   export let bgVisible  = false;
   export let onBack     = () => {};
+import renukaWhoIAm from "../assets/renuka_whoiam.png";
 
   // ── Card data ──
   const cards = [
@@ -120,7 +121,7 @@ I think empathy plays a big role in how I approach both people and design, and I
 
   <!-- Photo — only rendered always but visible only when card 0 is active -->
   <img
-    src="./assets/renuka_whoiam.png"
+    src={renukaWhoIAm}
     alt="Renuka"
     class="deco-photo"
     class:photo-visible={currentCard === 0 && visible}

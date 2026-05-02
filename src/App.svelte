@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import WhoIAm from './WhoIAm.svelte';
   import CircleSelectionPage from './CircleSelectionPage.svelte';
+    import renukaPhoto from '../assets/wbst 1.png';
 
   let mouseX = 0, mouseY = 0;
   let renukaRef, joagRef, curiousRef, optimisticRef, observantRef, experimentalRef;
@@ -175,7 +176,7 @@ class:hidden={state !== 'landing' && state !== 'collapsing'}
       <span class="nav-pill"></span><span class="nav-pill"></span><span class="nav-pill"></span>
     </div>
     <h1 class="name renuka animate-left" bind:this={renukaRef} style="transition:transform 0.15s ease-out">Renuka</h1>
-    <div class="photo-wrapper animate-photo"><img src="./assets/wbst 1.png" alt="Renuka Joag" class="photo" /></div>
+    <div class="photo-wrapper animate-photo"><img src={renukaPhoto} alt="Renuka Joag" class="photo" /></div>
     <h1 class="name joag animate-right" bind:this={joagRef} style="transition:transform 0.15s ease-out">Joag</h1>
     <div class="descriptors curious-descriptor"><span class="descriptor animate-desc-left" bind:this={curiousRef} style="transition:transform 0.15s ease-out;animation-delay:1.1s">Curious</span></div>
     <div class="descriptors optimistic-descriptor"><span class="descriptor animate-desc-left" bind:this={optimisticRef} style="transition:transform 0.15s ease-out;animation-delay:1.25s">Optimistic</span></div>
