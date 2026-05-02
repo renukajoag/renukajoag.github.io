@@ -209,7 +209,9 @@
     {#if (state === 'expanded' || state === 'deep' || circleGoingToCorner || circleComingFromCorner) && expandedIndex !== null}
       <div class="corner-pill-slots">
         {#each [0,1,2] as slotIdx}
-          {#if slotIdx === expandedIndex && (state === 'deep' || circleGoingToCorner || circleComingFromCorner)}
+        {#if slotIdx === expandedIndex
+            && expandedIndex !== 0
+            && (state === 'deep' || circleGoingToCorner || circleComingFromCorner)}
             <!-- The WHO I AM dot travels to/from corner — render as shrinking circle at z:12 -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -350,7 +352,7 @@
   .circle-label{font-family:'Trispace',monospace;font-stretch:112.5%;font-weight:300;font-size:clamp(11px,1.1vw,18px);color:#3A2F2B;letter-spacing:0.12em}
 
   /* Expanded circle — z:12 so it travels above WhoIAm background */
-  .expanded-scene{position:absolute;inset:0;z-index:12;display:flex;align-items:center;justify-content:center}
+  .expanded-scene{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center}
   .big-expanded-circle{width:clamp(400px,60vmin,720px);height:clamp(400px,60vmin,720px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
   .big-expanded-circle.from-left{animation:expandFromLeft 0.75s cubic-bezier(0.16,1,0.3,1) forwards}
   .big-expanded-circle.from-center{animation:expandFromCenter 0.75s cubic-bezier(0.16,1,0.3,1) forwards}
@@ -366,10 +368,20 @@
   .scroll-hint{font-family:'Trispace',monospace;font-stretch:112.5%;font-weight:300;font-size:clamp(9px,0.75vw,13px);color:#f2eded;letter-spacing:0.15em;opacity:0;margin-top:2.5vh;animation:itemFadeIn 0.5s ease 1s forwards}
 
   /* Circle travels from center to corner slot 0 (top-left) */
-  @keyframes circleToCorner{
-    from{transform:translate(0,0) scale(1)}
-    to{transform:translate(calc(-50vw + 4vw + 1.3vw), calc(-50vh + 4.5vh + 1.3vw)) scale(calc(clamp(18px,2.6vw,38px) / clamp(400px,60vmin,720px)))}
+@keyframes circleToCorner {
+  from {
+    transform: translate(0, 0) scale(1);
+    border-radius: 50%;
   }
+
+  to {
+    transform:
+      translate(33vw, 34vh)
+      scale(1.15);
+
+    border-radius: 50%;
+  }
+}
 
   /* All other keyframes */
   @keyframes pillsDrop{from{opacity:0;transform:translateY(-60px)}to{opacity:1;transform:translateY(0)}}

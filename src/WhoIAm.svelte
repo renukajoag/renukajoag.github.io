@@ -118,7 +118,10 @@ I think empathy plays a big role in how I approach both people and design, and I
   -->
 
   <!-- Decorative red circle — bottom right, partially clipped -->
-  <div class="deco-circle"></div>
+  <div class="deco-circle"
+    class:hidden-deco={!visible}
+  >
+    </div>
 
   <!-- Photo — only rendered always but visible only when card 0 is active -->
   <img
@@ -252,6 +255,9 @@ I think empathy plays a big role in how I approach both people and design, and I
     z-index: 1;
     pointer-events: none;
   }
+.hidden-deco {
+  opacity: 0;
+}
 
   /* ── Photo ──
      Fixed bottom-right, in front of deco circle.
