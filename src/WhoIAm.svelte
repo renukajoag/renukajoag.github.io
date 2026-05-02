@@ -7,12 +7,16 @@
   const cards = [
     {
       title: 'Who I am',
-      body: `I'm someone who tries to stay optimistic and I have a lot of different interests, hobbies, and people in my life that shape how I think and what I notice. I tend to pick up on small details and hold onto them. I like reading, writing, and crocheting, and I think all of these things influence how I see the world and what I end up creating.`,
+      body: `I'm someone who tries to stay optimistic and I have a lot of different interests, hobbies, and people in my life that shape how I think and what I notice. 
+
+I tend to pick up on small details and hold onto them. I like reading, writing, and crocheting, and I think all of these things influence how I see the world and what I end up creating.`,
       hasPhoto: true,
     },
     {
       title: 'What makes me, me',
-      body: `I genuinely like doing things that make someone feel a little better, even if it's something small. That matters to me more than big outcomes. I think empathy plays a big role in how I approach both people and design, and I'm naturally drawn to finding meaning in everyday situations.`,
+      body: `I genuinely like doing things that make someone feel a little better, even if it's something small. That matters to me more than big outcomes. 
+
+I think empathy plays a big role in how I approach both people and design, and I'm naturally drawn to finding meaning in everyday situations.`,
       hasPhoto: false,
     },
     {
@@ -305,7 +309,7 @@
     position: absolute;
     top: 52vh;
     left: 5vw;
-    max-width: clamp(260px, 42vw, 600px);
+    max-width: 52vw;
     font-family: 'Trispace', monospace;
     font-stretch: 112.5%;
     font-weight: 300;
@@ -313,6 +317,7 @@
     color: #3A2F2B;
     line-height: 1.85;
     letter-spacing: 0.02em;
+    white-space: pre-line;
   }
 
   /* ── Text entrance animations ── */
