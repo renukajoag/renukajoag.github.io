@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import WhoIAm from './WhoIAm.svelte';
   import CircleSelectionPage from './CircleSelectionPage.svelte';
+  import Work from "./Work.svelte";
     import renukaPhoto from '../assets/wbst 1.png';
 
   let mouseX = 0, mouseY = 0;
@@ -250,7 +251,7 @@ function handleCornerPillClick(i) {
 <div class="root">
 
   {#if showFuturePage}
-    <div class="future-page"><p class="future-hint">Scroll up to go back</p></div>
+        <Work />
   {/if}
 
   <!-- ════════ LANDING ════════ -->
@@ -271,13 +272,11 @@ class:hidden={state !== 'landing' && !collapsingToLanding}
     <div class="descriptors observant-descriptor"><span class="descriptor animate-desc-right" bind:this={observantRef} style="transition:transform 0.15s ease-out;animation-delay:1.1s">Observant</span></div>
     <div class="descriptors experimental-descriptor"><span class="descriptor animate-desc-right" bind:this={experimentalRef} style="transition:transform 0.15s ease-out;animation-delay:1.25s">Experimental</span></div>
     <div class="bottom-bar animate-bar"><span class="bar-text">Portfolio 2026</span></div>
-    {#if showSkipToast}
       <div class="toast-card animate-toast">
         <button class="toast-close" on:click={dismissToast} aria-label="Dismiss">✕</button>
         <p class="toast-heading">Short on time?<br>Skip to my work!</p>
         <button class="toast-cta" on:click={handleSkipClick}><span>😉</span><span>👌</span></button>
       </div>
-    {/if}
   </div>
 
 
@@ -345,25 +344,6 @@ keepCircleVisible={keepCircleVisible}
 	background: #f2eded
 }
 
-.future-page {
-	position: absolute;
-	inset: 0;
-	z-index: 20;
-	background: #f2eded;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	animation: fadeIn 0.5s ease forwards
-}
-
-.future-hint {
-	font-family: 'Trispace', monospace;
-	font-stretch: 112.5%;
-	font-size: 1vw;
-	color: #3A2F2B;
-	letter-spacing: 0.15em;
-	opacity: 0.5
-}
 
 .landing-page{
   position:absolute;
