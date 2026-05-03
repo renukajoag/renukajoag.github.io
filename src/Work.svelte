@@ -1,41 +1,47 @@
 <script>
   import Background from './Background.svelte';
+  import work1 from '../assets/work1.png';
+  import work2 from '../assets/work2.png';
+  import work3 from '../assets/work3.png';
+  import work4 from '../assets/work4.png';
+  import work5 from '../assets/work5.png';
+  import work6 from '../assets/work6.png';
 
   export let onBack = () => {};
 
   const projects = [
     {
-      image: '../assets/work1.png',
+      image: work1,
       line1: 'Book in Progress–',
       line2: 'Layouting, Publication design',
       behanceUrl: 'https://www.behance.net/renukajoag1/projects',
     },
     {
-      image: '../assets/work2.png',
+      image: work2,
       line1: 'Ono –',
       line2: 'Branding, Packaging',
       behanceUrl: 'https://www.behance.net/renukajoag1/projects',
     },
     {
-      image: '../assets/work3.png',
+      image: work3,
       line1: 'Poster Playground –',
       line2: 'Experimenting, Challenging myself',
       behanceUrl: 'https://www.behance.net/gallery/237097785/Poster-Playground',
     },
     {
-      image: '../assets/work4.png',
+      image: work4,
       line1: 'Crochet Lookbook -',
       line2: 'Layout, Passion project',
       behanceUrl: 'https://www.behance.net/gallery/236913297/My-Crochet-Lookbook',
     },
     {
-      image: '../assets/work5.png',
+      image: work5,
       line1: 'Naviin –',
       line2: 'Branding, Packaging',
       behanceUrl: 'https://www.behance.net/gallery/237093557/Naviin-Branding',
     },
     {
-      image: '../assets/work6.png',
+      image: work6,
       line1: 'Mochi : Mental Health Journal –',
       line2: 'Research, Book design',
       behanceUrl: 'https://www.behance.net/gallery/237100855/Mochi-Mental-Health-Journal',
