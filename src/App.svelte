@@ -9,7 +9,9 @@
      let returningFromDeep = false;
   let keepCircleVisible = false;
  let expandedRenderKey = 0;
+ let collapsingToLanding = false;
  let playExpandAnimation = false;
+let exitingDeepContent = false;
   function handleMouseMove(e) {
     mouseX = e.clientX; mouseY = e.clientY;
     applyMagnetic(renukaRef); applyMagnetic(joagRef);
@@ -85,10 +87,16 @@ function goToCircles() {
 
   lockScroll(1000);
 }
-  function goToLanding() {
-    state = 'collapsing'; lockScroll(950);
-    setTimeout(() => { state = 'landing'; }, 900);
-  }
+function goToLanding() {
+  collapsingToLanding = true;
+
+  lockScroll(1000);
+
+  setTimeout(() => {
+    state = 'landing';
+    collapsingToLanding = false;
+  }, 1000);
+}
 
   function tryGoDeep() {
     if (expandedIndex !== 0) return;
@@ -112,22 +120,27 @@ function enterDeep() {
 
 function exitDeep() {
   /*
-    Prevent re-running expandFromLeft
-    when expanded circle reappears.
+    Phase 1:
+    animate content out
   */
-  returningFromDeep = true;
-  keepCircleVisible = true;
+  exitingDeepContent = true;
+
+  lockScroll(1200);
 
   /*
-    Existing corner-pill return logic
+    Phase 2:
+    start circle/gradient return
   */
-  circleComingFromCorner = true;
+  setTimeout(() => {
+    returningFromDeep = true;
+    keepCircleVisible = true;
 
-  lockScroll(900);
+    circleComingFromCorner = true;
+  }, 350);
 
   /*
-    Allow WhoIAm reverse animations
-    to play before revealing expanded state.
+    Phase 3:
+    restore expanded scene
   */
   setTimeout(() => {
     circleComingFromCorner = false;
@@ -138,16 +151,16 @@ function exitDeep() {
 
     expandedIndex = 0;
     expandOrigin = 0;
-  }, 700);
+  }, 1000);
 
   /*
-    Cleanup after expanded state
-    is fully restored.
+    Cleanup
   */
   setTimeout(() => {
     returningFromDeep = false;
     keepCircleVisible = false;
-  }, 950);
+    exitingDeepContent = false;
+  }, 1250);
 }
 
   function handleCircleClick(i) {
@@ -243,7 +256,7 @@ function handleCornerPillClick(i) {
   <!-- ════════ LANDING ════════ -->
 <div
   class="landing-page"
-class:hidden={state !== 'landing' && state !== 'collapsing'}
+class:hidden={state !== 'landing' && !collapsingToLanding}
 >
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -278,7 +291,12 @@ class:hidden={state !== 'landing' && state !== 'collapsing'}
   -->
 <div
   class="selection-viewport"
-  class:selection-viewport-active={state !== 'landing'}
+class:selection-viewport-active={
+  state !== 'landing'
+  || collapsingToLanding
+}
+
+class:selection-viewport-collapsing={collapsingToLanding}
 >
 <CircleSelectionPage
   {state}
@@ -300,6 +318,7 @@ playExpandAnimation={playExpandAnimation}
     bgVisible={deepBgVisible}
     onBack={exitDeep}
 keepCircleVisible={keepCircleVisible}
+ exitingContent={exitingDeepContent}
   />
 </div>
     </div>
@@ -566,7 +585,7 @@ keepCircleVisible={keepCircleVisible}
 
   pointer-events:none;
 
-  transform-origin:8vw 6vh;
+  transform-origin:2.45vw 0.7vh;
 
   /*
     Tiny viewport centered on pills
@@ -584,7 +603,9 @@ keepCircleVisible={keepCircleVisible}
 
   pointer-events:all;
 }
-
+.selection-viewport.selection-viewport-collapsing{
+  transform:scale(0.12);
+}
 /* circles-page z:2 sits behind WhoIAm (z:5) which sits behind travelling circle (z:12) */
 .circles-page {
 	position: absolute;

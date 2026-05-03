@@ -3,6 +3,7 @@
   export let bgVisible  = false;
   export let onBack     = () => {};
 export let keepCircleVisible = false;
+export let exitingContent = false;
 import renukaWhoIAm from "../assets/renuka_whoiam.png";
 
   // ── Card data ──
@@ -98,7 +99,7 @@ I think empathy plays a big role in how I approach both people and design, and I
 <div
   class="wia-root"
   class:bg-visible={bgVisible || visible}
-  class:content-visible={visible}
+class:content-visible={visible && !exitingContent}
   on:wheel|preventDefault={handleWheel}
 >
 
@@ -125,7 +126,7 @@ I think empathy plays a big role in how I approach both people and design, and I
     src={renukaWhoIAm}
     alt="Renuka"
     class="deco-photo"
-    class:photo-visible={currentCard === 0 && visible}
+    class:photo-visible={currentCard === 0 && visible && !exitingContent}
   />
 
   <!--
